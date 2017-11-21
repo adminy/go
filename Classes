@@ -1,0 +1,133 @@
+Class Request{
+	public execute(){}
+	public response(){}
+	public createPlayerInfo()
+}
+
+Class NetworkInformation{}
+
+Class NetworkManager{
+	protected Client;
+	protected Server;
+}
+Class Player{}
+
+Class Prisoner{}
+
+Class Server extends GameNetwork{
+   protected GameState;
+   protected NetworkManager;
+
+   public processRequest(){}
+   public verifyRequest(){}
+   public checkStatus(){}
+   public createPlayer(){}
+   public createStones(){}
+   public initializeGame(){}
+   public send(){}
+   public createTurnInformationObject(){}
+   public chatBox(){}
+   public timer(){}
+   public moveHistory(){}
+   public endGame(){}
+   public score(){}
+   public createBoardRequest(){}
+   public createPlayerPrisoner(){}
+   public createPlayerScoreInformation(){}
+
+}
+
+Class Score{}
+
+Class SoundManager{}
+
+Class Stone{
+	protected stoneColour;
+	protected liberty;
+
+    public libertyAttack(){}
+    public stoneGroupConstruction(){}
+    public availableLiberties(){}
+}
+
+Class Square {}
+
+Class enum StoneType{
+	player 1 = BlackStone
+	player 2 = WhiteStone
+}
+
+Class TurnResultInformation{}
+
+Class StoneInformation{}
+
+Class Territory{}
+
+Class WhiteStone extends Stone{}
+
+Class StoneRequest{}
+
+Class Timer{}
+
+Class stoneColour{}
+
+Class TurnInformation{}
+
+Class BlackStone extends Stone{}
+
+Class Board{}
+
+Class Client extends GameNetwork
+{
+	protected player;
+	protected GameWorld;
+	protected SoundManager;
+	protected GraphicManager;
+	protected NetworkManager;
+
+	public selectServer(){}
+	public StartConnection(){}
+	public updateDisplay(){}
+	public stonePlacementRequest(){}
+	public processResponse(){}
+	public toBeCaptured(){}
+	public prisonerScore(){}
+	public createStoneRequest(){}
+	public createBoardResponse(){}
+	public confirmScore(){}
+	public createScoreRequest(){}
+	public createConnectionRequest(){}
+}
+
+Class BoardRequest{}
+
+Class checkStatus{}
+ Class ComputerPlayer extends GameEngine{
+ 	public decideStonePlacement(){}
+ }
+
+interface GameEngine{
+	void decideStonePlacement(){}
+}
+abstract Class GameEngine{
+	protected Server;
+	protected Client;
+}
+
+Class GraphicsManager{
+	public renderGraphics(){}
+}
+
+Class GameState{}
+
+Class GameView{}
+
+Class GameWorld{}
+
+Class liberty{}
+
+Class InitialisationInformation{}
+
+Class HumanPlayer extends GameEngine{
+public decideStonePlacement(){}
+}
