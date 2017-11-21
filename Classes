@@ -1,3 +1,5 @@
+#SERVER
+
 Class Request{
 	public execute(){}
 	public response(){}
@@ -10,9 +12,9 @@ Class NetworkManager{
 	protected Client;
 	protected Server;
 }
-Class Player{}
+Class Player{}  #also Client
 
-Class Prisoner{}
+Class Square {}
 
 Class Server extends GameNetwork{
    protected GameState;
@@ -37,6 +39,39 @@ Class Server extends GameNetwork{
 
 }
 
+interface GameEngine{
+	void decideStonePlacement(){}
+}
+abstract Class GameEngine{
+	protected Server;
+	protected Client;
+}
+Class HumanPlayer extends GameEngine{
+public decideStonePlacement(){}
+}
+#CLIENT
+
+Class Client extends GameNetwork
+{
+	protected player;
+	protected GameWorld;
+	protected SoundManager;
+	protected GraphicManager;
+	protected NetworkManager;
+
+	public selectServer(){}
+	public StartConnection(){}
+	public updateDisplay(){}
+	public stonePlacementRequest(){}
+	public processResponse(){}
+	public toBeCaptured(){}
+	public prisonerScore(){}
+	public createStoneRequest(){}
+	public createBoardResponse(){}
+	public confirmScore(){}
+	public createScoreRequest(){}
+	public createConnectionRequest(){}
+}
 Class Score{}
 
 Class SoundManager{}
@@ -50,7 +85,7 @@ Class Stone{
     public availableLiberties(){}
 }
 
-Class Square {}
+
 
 Class enum StoneType{
 	player 1 = BlackStone
@@ -76,6 +111,9 @@ Class TurnInformation{}
 Class BlackStone extends Stone{}
 
 Class Board{}
+#NONE_OF_BOTH
+
+Class Prisoner{}
 
 Class Client extends GameNetwork
 {
@@ -106,13 +144,7 @@ Class checkStatus{}
  	public decideStonePlacement(){}
  }
 
-interface GameEngine{
-	void decideStonePlacement(){}
-}
-abstract Class GameEngine{
-	protected Server;
-	protected Client;
-}
+
 
 Class GraphicsManager{
 	public renderGraphics(){}
@@ -127,7 +159,3 @@ Class GameWorld{}
 Class liberty{}
 
 Class InitialisationInformation{}
-
-Class HumanPlayer extends GameEngine{
-public decideStonePlacement(){}
-}
