@@ -1,18 +1,27 @@
 <!DOCTYPE html>
 <html>
   <head><title>Go</title>
-    <link rel="stylesheet" type="text/css" href="go.css">
-    <script src="go.js"></script>
+    <link rel="stylesheet" type="text/css" href="lib/go.css">
+    <script src="net/client.js"></script>
+    <script src="system/drawBoard.js"></script>
+		<script src="system/score.js"></script>
   </head>
   <body>
-	<div id="border"><canvas id="board"></canvas></div>
-
-
-	<select id="comboA" onchange="selectServer(this.value)">
-		<option value="">Select A Server</option>
-		<option value="51.37.104.171:88">Public Server</option>
-		<option value="localhost:88">Local Server</option>
-	</select>
-
-
+	<table width="100%">
+		<tr width="100%">
+			<td width="15%">
+				<select id="comboA" onchange="selectServer(this.value)">
+					<option value="">Select A Server</option>
+					<option value="51.37.104.171:88">Public Server</option>
+					<option value="localhost:88">Local Server</option>
+				</select>
+			</td>
+			<td style="text-align:center;" width="65%">
+				<canvas id="board"></canvas>
+			</td>
+			<td width="20%">
+				<h2>Move History</h2>
+				Move<br>
+				Move<br>
+			</td>
 </html>
