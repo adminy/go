@@ -12,15 +12,30 @@ class GameState {
     }
 }
 
+
+
 class Server {
-    constructor() {
-        GameState;
-        NetworkManager;
+    constructor(host, port) {
+        const WebSocket = require('ws');
+        const ws = new WebSocket('ws://' + host + ':' + port);
+            ws.on('open', function open() {
+            ws.send('Server Started');
+        });
+
+        ws.on('message', this.processRequest);
     }
-    processRequest(){}
-    verifyRequest(){}
-    checkStatus(){}
-    createPlayer(){}
+    
+    processRequest(data){
+        console.log(data);
+        //what type of data it is and what to do with it
+    }
+    
+
+    //verifyRequest(){}
+    //checkStatus(){}
+    createPlayer(){
+
+    }
     createStones(){}
     initializeGame(){}
     send(){}
@@ -34,3 +49,5 @@ class Server {
     createPlayerPrisoner(){}
     createPlayerScoreInformation(){} 
  }
+
+new Server(host='51.37.104.171', port=88);
