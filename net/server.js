@@ -1,4 +1,4 @@
-/*class GameState {
+class GameState {
     constructor() {
         this.state = 0;
         //0 -> initial state
@@ -13,27 +13,21 @@
 }
 
 
-*/
+
 
 class Server {
     constructor(host, port) {
-        const wss = new WebSocket.Server({host: host, port: port});
-        var that = this; //this object is that over there
-        wss.on('connection', function connection(ws) {
-          ws.on('message', function incoming(message) {
-            console.log('received: %s', message);
-          });
-
-          ws.send('something');
-        });
-
+	var WebSocket = require('ws');
+        var wss = new WebSocket.Server({host: host, port: port});
+            wss.on('connection', this.connect);
         this.canContactClients = false;
 
     }
     
     connect(ws) {
+        console.log("connected");
         this.ws = ws;
-        ws.on('message', processRequest);
+        ws.on('message', this.processRequest);
         this.canContactClients = true;
     }
 
@@ -69,5 +63,26 @@ class Server {
  }
 
 
-new Server(host='51.37.104.171', port=88);
-        //
+//var WebSocket = require('ws');
+//var wss = new WebSocket.Server({host: '192.168.1.88', port: 8080 });
+//wss.on('connection', function connection(ws) {
+//  ws.on('message', function incoming(message) {
+//    console.log('received: %s', message);
+//  });
+//
+//  ws.send('something');
+//});
+
+//new Server(host='192.168.1.88', port=88);
+
+const WebSocket = require('ws');
+
+const wss = new WebSocket.Server({ port: 88 });
+
+wss.on('connection', function connection(ws) {
+  ws.on('message', function incoming(message) {
+    console.log('received: %s', message);
+  });
+
+  ws.send('something');
+});
