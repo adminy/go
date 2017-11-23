@@ -14,23 +14,40 @@
 
 
 */
-/*
+
 class Server {
     constructor(host, port) {
-        var WebSocket = require('ws');
-        var ws = new WebSocket('ws://' + host + ':' + port);
-            ws.on('open', function open() {
-            ws.send('Server Started');
+        const wss = new WebSocket.Server({host: host, port: port});
+        var that = this; //this object is that over there
+        wss.on('connection', function connection(ws) {
+          ws.on('message', function incoming(message) {
+            console.log('received: %s', message);
+          });
+
+          ws.send('something');
         });
 
-        ws.on('message', this.processRequest);
+        this.canContactClients = false;
+
     }
     
+    connect(ws) {
+        this.ws = ws;
+        ws.on('message', processRequest);
+        this.canContactClients = true;
+    }
+
     processRequest(data){
         console.log(data);
         //what type of data it is and what to do with it
     }
-    
+
+    send(data){
+        if(this.canContactClients)
+            this.ws.send(data);
+        else
+            console.log("Can't Send Messsage (Server Error)");
+    }    
 
     //verifyRequest(){}
     //checkStatus(){}
@@ -39,7 +56,7 @@ class Server {
     }
     //createStones(){}
     initializeGame(){}
-    send(){}
+
     createTurnInformationObject(){}
     chatBox(){}
     timer(){}
@@ -50,10 +67,7 @@ class Server {
     createPlayerPrisoner(){}
     createPlayerScoreInformation(){} 
  }
-*/
-const WebSocket = require('ws');
-const ws = new WebSocket('ws://51.37.104.171:88');
-      ws.on('open', function open() {
-        ws.send('Server Started');
-      });
-      ws.on('message', processRequest);
+
+
+new Server(host='51.37.104.171', port=88);
+        //
