@@ -1,4 +1,4 @@
-class GameState {
+/*class GameState {
     constructor() {
         this.state = 0;
         //0 -> initial state
@@ -13,7 +13,8 @@ class GameState {
 }
 
 
-
+*/
+/*
 class Server {
     constructor(host, port) {
         var WebSocket = require('ws');
@@ -36,7 +37,7 @@ class Server {
     createPlayer(){
 
     }
-    createStones(){}
+    //createStones(){}
     initializeGame(){}
     send(){}
     createTurnInformationObject(){}
@@ -49,5 +50,10 @@ class Server {
     createPlayerPrisoner(){}
     createPlayerScoreInformation(){} 
  }
-
-new Server(host='51.37.104.171', port=88);
+*/
+const WebSocket = require('ws');
+const ws = new WebSocket('ws://51.37.104.171:88');
+      ws.on('open', function open() {
+        ws.send('Server Started');
+      });
+      ws.on('message', processRequest);
