@@ -16,8 +16,8 @@ class GameState {
 
 class Server {
     constructor(host, port) {
-        const WebSocket = require('ws');
-        const ws = new WebSocket('ws://' + host + ':' + port);
+        var WebSocket = require('ws');
+        var ws = new WebSocket('ws://' + host + ':' + port);
             ws.on('open', function open() {
             ws.send('Server Started');
         });
