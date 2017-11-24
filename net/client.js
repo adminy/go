@@ -2,11 +2,11 @@
 function drawBoard() {
 	var canvas = document.getElementById("board");
 	var border = document.getElementById("border");
-	canvas.width = canvas.style.width = border.style.width =  window.innerHeight/1.5;
-	canvas.height = canvas.style.height = border.style.height = window.innerHeight/1.5;
+	//canvas.width = canvas.style.width = border.style.width =  window.innerHeight/1.5;
+	//canvas.height = canvas.style.height = border.style.height = window.innerHeight/1.5;
 	
-	border.style.width =  window.innerHeight/1.5 + "px";
-	border.style.height =  window.innerHeight/1.5 + "px";
+	//border.style.width =  window.innerHeight/1.5 + "px";
+	//border.style.height =  window.innerHeight/1.5 + "px";
 	var size = 9;
 	var distance_between = canvas.width/size; //parseInt(canvas.height/13);
 	var board_pos = size*4;
