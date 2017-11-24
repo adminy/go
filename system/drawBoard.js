@@ -1,9 +1,6 @@
 class drawBoard {
 	constructor() {
-		this.canvas = document.getElementById("board");
-		this.border = document.getElementById("border");
-		this.board_size = 9; //hardcoded board size
-		this.board_pos = 0; //this.board_size*4; //board position on the canvas
+		
 	}
 	
 	updateSizes() {
