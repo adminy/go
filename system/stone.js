@@ -1,9 +1,9 @@
 class Liberty {
     constructor(stone) {
-        this.top = 0;
-        this.left = 0;
+        this.top    = 0;
+        this.left   = 0;
         this.bottom = 0;
-        this.right = 0;
+        this.right  = 0;
     }
     total() {
         return this.top + this.left + this.bottom + this.right;

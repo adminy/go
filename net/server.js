@@ -1,7 +1,10 @@
+var players = ['black', 'white'];
+var turn = true; //true : black | false : white
 class GameState {
     constructor() {
         this.state = 0;
-        //0 -> initial state
+        //0 -> initial state server started
+        //1 -> connected player 1
         //1 -> starrted state (waiting on player response)
         //2 -> finished state (calculating score)
         //3 -> player1 wins
@@ -12,77 +15,47 @@ class GameState {
     }
 }
 
-
-
-
-class Server {
-    constructor(host, port) {
-	var WebSocket = require('ws');
-        var wss = new WebSocket.Server({host: host, port: port});
-            wss.on('connection', this.connect);
-        this.canContactClients = false;
-
-    }
-    
-    connect(ws) {
-        console.log("connected");
-        this.ws = ws;
-        ws.on('message', this.processRequest);
-        this.canContactClients = true;
-    }
-
-    processRequest(data){
-        console.log(data);
-        //what type of data it is and what to do with it
-    }
-
-    send(data){
-        if(this.canContactClients)
-            this.ws.send(data);
-        else
-            console.log("Can't Send Messsage (Server Error)");
-    }    
-
-    //verifyRequest(){}
-    //checkStatus(){}
-    createPlayer(){
-
-    }
-    //createStones(){}
-    initializeGame(){}
-
-    createTurnInformationObject(){}
-    chatBox(){}
-    timer(){}
-    moveHistory(){}
-    endGame(){}
-    score(){}
-    createBoardRequest(){}
-    createPlayerPrisoner(){}
-    createPlayerScoreInformation(){} 
- }
-
-
-//var WebSocket = require('ws');
-//var wss = new WebSocket.Server({host: '192.168.1.88', port: 8080 });
-//wss.on('connection', function connection(ws) {
-//  ws.on('message', function incoming(message) {
-//    console.log('received: %s', message);
-//  });
-//
-//  ws.send('something');
-//});
-
-//new Server(host='192.168.1.88', port=88);
-
 const WebSocket = require('ws');
-
 const wss = new WebSocket.Server({ port: 88 });
+
+function sendToAll(message) {
+    // Broadcast to everyone else.
+    wss.clients.forEach(function each(client) {
+        if (client.readyState === WebSocket.OPEN) //client !== ws && 
+          client.send(message);
+    });
+}
 
 wss.on('connection', function connection(ws) {
   ws.on('message', function incoming(message) {
-    console.log('received: %s', message);
-  });
+    if(message=='whoami') {
+        if(turn) {
+            sendToAll(players[0]);
+            turn = !turn;
+        } else {
+            sendToAll(players[1]);
+            sendToAll("canmove,"+players[0]);
+            turn = !turn;
+        }
+    }
 
-  ws.send('something');
+    if(message.substring(0,4) == 'move') {
+        var move = message.split(',');
+        if(move[1] == 'black' && turn) {
+            turn = !turn; //change turn
+            sendToAll(message); //broadcast the move
+            sendToAll("canmove,"+players[1]);
+        }
+        if(move[1] == 'white' && !turn) {
+            turn = !turn; //change turn
+            sendToAll(message);
+            sendToAll("canmove,"+players[0]);
+        }
+        
+    }
+
+    console.log('received: %s', JSON.stringify(message));
+  });
 });
+
+

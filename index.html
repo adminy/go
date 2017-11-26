@@ -3,28 +3,34 @@
   <head><title>Go</title>
     <link rel="stylesheet" type="text/css" href="lib/go.css">
     <script src="net/client.js"></script>
-    <script src="system/board.js"></script>
+		<script src="system/board.js"></script>
+    <script src="system/player.js"></script>
     <script src="system/stone.js"></script>
 	<script src="system/score.js"></script>
-	<script src="system/turn.js"></script>
+	<script>
+		var ws, isPlayerSetup = false, board, me; //global variables
+		document.onreadystatechange = function () {
+			if(document.readyState == "complete")
+				board = new Board();
+		};
+	</script>
   </head>
   <body>
 	<table width="100%">
 		<tr width="100%">
-			<td width="15%">
-				<select id="comboA" onchange="selectServer(this.value)">
+			<td width="25%">
+				<select id="comboA" onchange="selectServer(this.value)" style='font-size:25px;'>
 					<option value="">Select A Server</option>
 					<option value="51.37.104.171:88">Public Server</option>
 					<option value="localhost:88">Local Server</option>
 				</select>
-				<div id="playerturn"> </div>
+				<div id="status" style='height:500px;overflow-y:scroll'></div>
 			</td>
-			<td style="text-align:center;" width="65%">
+			<td style="text-align:center;width:600px;height:600px;">
 				<canvas id="board"></canvas>
 			</td>
-			<td width="20%">
+			<td>
 				<h2>Move History</h2>
-				Move<br>
-				Move<br>
+				<div id='move_history' style='height:500px;overflow-y:scroll'></div>
 			</td>
 </html>

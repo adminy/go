@@ -1,100 +1,4 @@
 
-function drawBoard() {
-	var canvas = document.getElementById("board");
-	var border = document.getElementById("border");
-	//canvas.width = canvas.style.width = border.style.width =  window.innerHeight/1.5;
-	//canvas.height = canvas.style.height = border.style.height = window.innerHeight/1.5;
-	
-	//border.style.width =  window.innerHeight/1.5 + "px";
-	//border.style.height =  window.innerHeight/1.5 + "px";
-	var size = 9;
-	var distance_between = canvas.width/size; //parseInt(canvas.height/13);
-	var board_pos = size*4;
-	var c = canvas.getContext("2d");
-	
-	c.beginPath();
-	for(var i = 0; i < size; i++) {
-		c.moveTo(board_pos, board_pos+distance_between*i); c.lineTo(board_pos+distance_between*(size-1), board_pos+distance_between*i);
-		c.moveTo(board_pos+distance_between*i, board_pos); c.lineTo(board_pos+distance_between*i, board_pos+distance_between*(size-1));
-	}
-	c.closePath();
-	c.stroke();
-
-
-	//place positions
-	var board = [];
-	var radius = distance_between/2;
-	
-	for(var y = board_pos; y <= distance_between*size; y+=distance_between) {
-		board.push([]);
-		for(var x = board_pos; x <= distance_between*size; x+=distance_between) {
-			c.beginPath();
-			c.arc(x, y, radius, 0, 2*Math.PI);
-			c.closePath();
-			c.stroke();
-			board.push([x,y, false]); //x, y, set on board or not?
-			
-		}
-		i++;
-	}
-	//console.log(board);
-	var black_white_player_turn = true;
-	
-	canvas.addEventListener("click", function(event) {          
-            var rect = canvas.getBoundingClientRect();
-            var mouse = {x: event.clientX - rect.left, y: event.clientY - rect.top};
-            for(var i = 0; i < board.length; i++) {
-				//if clicked inside a circle
-                if(Math.sqrt((mouse.x-board[i][0])*(mouse.x-board[i][0]) + (mouse.y-board[i][1])*(mouse.y-board[i][1])) < radius && board[i][2] !== true) {
-				     c.beginPath();
-					 c.arc(board[i][0], board[i][1], radius, 0, 2*Math.PI);
-					 c.fillStyle = black_white_player_turn ? "black" : "white";
-					 c.fill();
-					 c.closePath();
-					 black_white_player_turn = !black_white_player_turn;
-					 board[i][2] = true;
-                }
-                    
-            }
-        }, false);
-
-
-	
-	
-}
-
-
-
-document.onreadystatechange = function () {
-    if (document.readyState == "complete")
-    	drawBoard();
-    	//var select = document.getElementsByTagName("select");
-    	//console.log(select);
-        //
-        //window.onload = window.onresize = window.onfocus = drawBoard;
-};
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-	I've tried, but guy's WTF way too many methods???
-
-*/
-
-
-
-
-
-var ws;
 function selectServer(ip) {
 	ws=new WebSocket("ws://" + ip);
 	startConnection();
@@ -102,15 +6,31 @@ function selectServer(ip) {
 //once started connection and its open, process the server responses.
 function startConnection() {
 	ws.onopen = function(event) {
-        	console.log("Connected!");
-                send("Sending Data to Server.")
-        }
+		document.getElementById('status').innerHTML += "<font color=green>Connected!</font><br>";
+        send("whoami"); //ask server which player AM I?
+    }
 	ws.onmessage = function(response) {
 		processResponse(response.data);
   	}
 }
 // Print All Server Responses in the console.
 function processResponse(data) {
+	/* Server is telling me to be black or player
+	* 	do it if it didn't already tell me before
+	* 	make new Player object
+	*/
+	if(isPlayerSetup == false && (data == "black" || data == "white")) {
+		isPlayerSetup = true;
+		me = new Player(data, 0);
+		document.getElementById('status').innerHTML += "You have become the " + data + " player.<br>";
+	}
+
+	if(data.substring(0,4) == 'move') {
+		me.placeTurn(data);
+	}
+	if(data.substring(0,7) == 'canmove')
+		me.canMove = data.split(',')[1] == me.colour;
+
 	console.log(data);	
 }
 //Send message to server
