@@ -1,5 +1,6 @@
 ###To start a server you do: node net/server.js
 
 Here is latest Screenshot of what our Go looks like with server and All
+![alt text](lib/server.jpg "Our Go Server")
 
-![alt text](lib/go.jpg "Our Go")
+![alt text](lib/go.jpg "Our Go Client")
