@@ -19,6 +19,8 @@ class Player {
         var history_div = document.getElementById("move_history");
         history_div.innerHTML += move[1] + " at y: " + (parseInt(move[2])+1) + " x: " + (parseInt(move[2])) + "<br>";
         history_div.scrollTop = history_div.scrollHeight;
+        //document.getElementById("move_history").innerHTML += move[1] + " at y: " + (parseInt(move[2])+1) + " x: " + (parseInt(move[2])) + "<br>";
+        //document.getElementById("move_history").scrollTop = document.getElementById("move_history").scrollHeight;
 
     }
 }
