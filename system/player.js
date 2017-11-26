@@ -14,7 +14,7 @@ class Player {
         var move_colour = move[1], move_y = parseInt(move[2]), move_x = parseInt(move[3]);
 
         board.drawMove(move_colour, move_y, move_x );
-        board.board[y][x] = new Stone(board, move_colour, move_y, move_x);
+        board.board[move_y][move_x] = new Stone(board, move_colour, move_y, move_x);
         
         var history_div = document.getElementById("move_history");
         history_div.innerHTML += move[1] + " at y: " + (parseInt(move[2])+1) + " x: " + (parseInt(move[2])) + "<br>";
