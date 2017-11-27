@@ -65,7 +65,7 @@ class Board {
 	cleanChains() {
 		var newChains = [];
 		for(let i = 0; i < this.chains.length; i++)
-			if(this.chains[i].stones.length > 0)
+			if(this.chains[i].stones != [])
 				newChains.push(this.chains[i]);
 		this.chains = newChains;
 
@@ -118,6 +118,21 @@ class Board {
 		c.fill();
 		c.closePath();
 		this.board_positions[i][2] = true; //TODO: this tells position taken don't place anymore but ... Not checked above ... not used
+
+	}
+
+
+	deleteMove(y, x) {
+		var i = y * this.board_size + x;
+		var c = this.canvas.getContext("2d");
+		
+		c.beginPath();
+		c.arc(this.board_positions[i][0], this.board_positions[i][1], this.radius, 0, 2*Math.PI);
+		c.fillStyle = "#e1995e";
+		c.fill();
+		c.closePath();
+		this.board_positions[i][2] = false; //TODO: this tells position taken don't place anymore but ... Not checked above ... not used
+		this.board.board[y][x] = "Free";
 
 	}
 }
