@@ -8,10 +8,38 @@
     <script src="system/stone.js"></script>
 	<script src="system/score.js"></script>
 	<script>
-		var ws, isPlayerSetup = false, board, me; //global variables
+		var ws, isPlayerSetup = false, board, me,score; //global variables
+
+		var black_turns = 0;		//to remove at the end of testing
+		var white_turns = 0;		//to remove at the end of testing
+		function autoplay() {
+			if(me && me.colour == "black" && me.canMove) {
+				if(black_turns == 0) { me.makeTurn(1,0); console.log("black moved0"); }
+				if(black_turns == 1) { me.makeTurn(1,1); console.log("black moved1"); }
+				if(black_turns == 2) { me.makeTurn(0,2); console.log("black moved2"); }
+				black_turns++;
+				
+			}
+
+			if(me && me.colour == "white" && me.canMove) {
+				if(white_turns == 0) { me.makeTurn(0,0); console.log("white moved"); }
+				if(white_turns == 1) { me.makeTurn(4,4); console.log("white moved"); }
+				if(white_turns == 2) { me.makeTurn(0,1); console.log("white moved"); }
+				white_turns++;
+			}
+			setTimeout(autoplay, 2000);
+		}
+
+
+
 		document.onreadystatechange = function () {
-			if(document.readyState == "complete")
+			if(document.readyState == "complete") {
 				board = new Board();
+				
+				//AUTOMATE STUPID MOVES
+				selectServer("51.37.119.242:88");
+				setTimeout(autoplay,0);
+			}
 		};
 	</script>
   </head>
@@ -21,7 +49,7 @@
 			<td width="25%">
 				<select id="comboA" onchange="selectServer(this.value)" style='font-size:25px;'>
 					<option value="">Select A Server</option>
-					<option value="51.37.104.171:88">Public Server</option>
+					<option value="51.37.119.242:88">Public Server</option>
 					<option value="localhost:88">Local Server</option>
 				</select>
 				<div id="status" style='height:500px;overflow-y:scroll'></div>

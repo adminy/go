@@ -132,7 +132,8 @@ class Board {
 		c.fill();
 		c.closePath();
 		this.board_positions[i][2] = false; //TODO: this tells position taken don't place anymore but ... Not checked above ... not used
-		this.board.board[y][x] = "Free";
-
+		setTimeout(function() {
+			board.board[y][x] = "Free"; //something here 
+		}, 0);
 	}
 }
