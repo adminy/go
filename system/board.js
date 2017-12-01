@@ -86,10 +86,12 @@ class Board {
 	checkvalidclick(mouse) {
 		for(var i = 0; i < this.board_positions.length; i++) {
 			//if clicked inside a circle
-			if(Math.sqrt((mouse.x - this.board_positions[i][0]) * (mouse.x - this.board_positions[i][0]) +
-				 (mouse.y - this.board_positions[i][1]) * (mouse.y - this.board_positions[i][1])) < 
-						this.radius && this.board_positions[i][2] !== true) {
-					
+			//if(Math.sqrt((mouse.x - this.board_positions[i][0]) * (mouse.x - this.board_positions[i][0]) +
+			//	 (mouse.y - this.board_positions[i][1]) * (mouse.y - this.board_positions[i][1])) < 
+			//			this.radius && this.board_positions[i][2] !== true) {
+			if(Math.pow(mouse.x - this.board_positions[i][0], 2) + Math.pow(mouse.y - this.board_positions[i][1], 2) < Math.pow(this.radius,2)) {
+			
+		
 					//move valid, so is it the player's turn?	//check     `canMove`		variable
 					me.makeTurn(parseInt(i/this.board_size), i%this.board_size); //move y, x
 				/*	console.log("Y: "+parseInt(i/this.board_size)+", X: "+ (i%this.board_size) );
