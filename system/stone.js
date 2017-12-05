@@ -24,17 +24,15 @@ class Chain {
             this.liberties += this.stones[i].liberty.total();
         }
         return this.liberties;
-
     }
     removeChain(){  //removeChain removes a chain but also returns the chains length
-
-        var score = this.stones.length;
+        
         for (var i = 0; i < this.stones.length; i++){
-            board.deleteMove(this.stones[i].y,this.stones[i].x)
+            board.deleteMove(this.stones[i].y,this.stones[i].x);
+            //also tell the server this information maybe????
         }
         this.stones = [];
-        
-    }
+   }
 
 }
 
@@ -44,36 +42,19 @@ class Stone {
         this.liberty = new Liberty(this); //for this specific stone
         this.x = x;
         this.y = y;
+        this.mychain = "Free";
         this.checkForChain();
-        
-        
-        //console.log("the");
-
-        // everything else
-        /*
-        for(var i = 0; i < this.board.chains.length; i++) {
-            console.log(this.board.chains[i].totalLiberties());
-            if(this.board.chains[i].totalLiberties() == 0) {
-                for(var j = 0; j < board.chains[i].stones.length; j++) {
-                    this.board.deleteMove(board.chains[i].stones[j].y, board.chains[i].stones[j].x);
-                    //update score
-                }
-                this.board.chains[i].stones = [];
-                this.board.cleanChains();
-            }
-        }*/
-
-        
     }
 
 
 
 
     checkForChain() {
+        
         var addedToChain = false, added_x = 0, added_y = 0;
         // if there is a stone to left that same colour as you
         if (this.liberty.left == 0 && this.isMyStone(this.y, this.x-1)) {
-            this.aminChain(board.board[this.y][this.x-1]).stones.push(this);
+            board.board[this.y][this.x-1].mychain.stones.push(this);
             addedToChain = true;
             added_y = this.y;
             added_x = this.x - 1;
@@ -83,11 +64,11 @@ class Stone {
         // if there is a stone to right that same colour as you
         if (this.liberty.right == 0 && this.isMyStone(this.y, this.x+1)){
             if(addedToChain) {
-                while(this.aminChain(board.board[this.y][this.x+1]) != [])
-                    this.aminChain(board.board[added_y][added_x]).stones.push(this.aminChain(board.board[this.y][this.x+1]).stones.pop());
+                while(board.board[this.y][this.x+1].mychain.stones != [])
+                    board.board[added_y][added_x].mychain.stones.push(board.board[this.y][this.x+1].mychain.stones.pop());
             }
             else {
-                this.aminChain(board.board[this.y][this.x+1]).stones.push(this);
+                board.board[this.y][this.x+1].mychain.stones.push(this);
                 addedToChain = true;
                 added_y = this.y;
                 added_x = this.x + 1;
@@ -101,11 +82,11 @@ class Stone {
         // if there is a stone above that is same colour as you
         if (this.liberty.top == 0 && this.isMyStone(this.y+1, this.x)) {
             if(addedToChain) {
-                while(this.aminChain(board.board[this.y+1][this.x]) != [])
-                    this.aminChain(board.board[added_y][added_x]).stones.push(this.aminChain(board.board[this.y+1][this.x]).stones.pop());
+                while(board.board[this.y+1][this.x].mychain.stones != [])
+                    board.board[added_y][added_x].mychain.stones.push(board.board[this.y+1][this.x].mychain.stones.pop());
             }
             else {
-                this.aminChain(board.board[this.y+1][this.x]).stones.push(this);
+                board.board[this.y+1][this.x].mychain.stones.push(this);
                 addedToChain = true;
                 added_y = this.y  + 1;
                 added_x = this.x;
@@ -119,40 +100,32 @@ class Stone {
         // if there is a stone below that is same colour as you
         if (this.liberty.bottom == 0 && this.isMyStone(this.y-1, this.x)){
             if(addedToChain) {
-                while(this.aminChain(board.board[this.y-1][this.x]) != [])
-                    this.aminChain(board.board[added_y][added_x]).stones.push(this.aminChain(board.board[this.y-1][this.x]).stones.pop());
+                while(board.board[this.y-1][this.x].mychain.stones != [])
+                    board.board[added_y][added_x].mychain.stones.push(board.board[this.y-1][this.x].mychain.stones.pop());
             }
             else {
-                this.aminChain(board.board[this.y-1][this.x]).stones.push(this);
+                board.board[this.y-1][this.x].mychain.stones.push(this);
                 addedToChain = true;
                 added_y = this.y - 1;
                 added_x = this.x;
             }
             board.cleanChains();
-            //console.log("TOP CHAIN !!!!!!!!!!!!!!!");  
-                  }
+            //console.log("BOTTOM CHAIN !!!!!!!!!!!!!!!");  
+        }
         
 
-        if(!addedToChain)
-            board.chains.push(new Chain(this.colour, [this]))
-    }
-
+        if(!addedToChain) {
+            this.mychain = new Chain(this.colour, [this]);
+            board.chains.push(this.mychain);
+        }
         
-
-
-
-
-    aminChain(stone) {
-        for( let i = 0; i < board.chains.length; i++)
-            for(let j = 0; j < board.chains[i].stones.length; j++)
-                if(board.chains[i] && board.chains[i].stones[j] == stone)
-                    return board.chains[i];
     }
 
-    isMyStone(y, x) {
+    isMyStone(y, x) { //typeof board.board[y][x] == "object" && board.board[y][x].hasOwnProperty('colour')
         if(board.board[y] && board.board[y][x])
             return board.board[y][x] && board.board[y][x].colour == this.colour;
     }
+
 
     stoneGroupConstruction() {
         //hint -> use `this.board`

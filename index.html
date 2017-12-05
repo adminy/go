@@ -9,7 +9,7 @@
 	<script src="system/score.js"></script>
 	<script>
 		var ws, isPlayerSetup = false, board, me,score; //global variables
-
+		/*
 		var black_turns = 0;		//to remove at the end of testing
 		var white_turns = 0;		//to remove at the end of testing
 		function autoplay() {
@@ -26,7 +26,7 @@
 				white_turns++;
 			}
 			setTimeout(autoplay, 2000);
-		}
+		}*/
 
 
 
@@ -35,28 +35,32 @@
 				board = new Board();
 				
 				//AUTOMATE STUPID MOVES
-				//selectServer("51.37.119.242:88");
+				selectServer("51.37.119.242:88");
 				//setTimeout(autoplay,0);
 			}
 		};
 	</script>
   </head>
   <body>
-	<table width="100%">
-		<tr width="100%">
-			<td width="25%">
-				<select id="comboA" onchange="selectServer(this.value)" style='font-size:25px;'>
+	<div id='left'>
+		<select id="comboA" onchange="selectServer(this.value)" style='font-size:25px;'>
 					<option value="">Select A Server</option>
 					<option value="51.37.119.242:88">Public Server</option>
 					<option value="localhost:88">Local Server</option>
 				</select>
+				<div id="scores">
+					<div id='black_score'>0</div>
+					<div id='white_score'>20</div>
+				</div>
 				<div id="status" style='height:500px;overflow-y:scroll'></div>
-			</td>
-			<td style="text-align:center;width:600px;height:600px;">
-				<canvas id="board"></canvas>
-			</td>
-			<td>
-				<h2>Move History</h2>
-				<div id='move_history' style='height:500px;overflow-y:scroll'></div>
-			</td>
+	</div>
+	
+	<div id="mid">
+		<canvas id="board"></canvas>
+	</div>
+
+	<div id="right">
+		<h2>Move History</h2>
+		<div id='move_history' style='height:480px;overflow-y:scroll'></div>
+	</div>
 </html>

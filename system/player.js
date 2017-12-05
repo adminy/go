@@ -24,7 +24,6 @@ class Player {
         history_div.scrollTop = history_div.scrollHeight;
         //document.getElementById("move_history").innerHTML += move[1] + " at y: " + (parseInt(move[2])+1) + " x: " + (parseInt(move[2])) + "<br>";
         //document.getElementById("move_history").scrollTop = document.getElementById("move_history").scrollHeight;
-
     }
 
 
@@ -41,9 +40,9 @@ class Player {
     prisoners(y, x){
 
         //check suicide
-        if (board.board[y][x].aminChain(board.board[y][x]).totalLiberties() == 0){
+        if (board.board[y][x].mychain.totalLiberties() == 0){
         // remove this chain
-            board.board[y][x].aminChain(board.board[y][x]).removeChain();
+            board.board[y][x].mychain.removeChain();
             //update other score by chain length
 
         }
@@ -56,7 +55,6 @@ class Player {
 
 
         }
-
     }
 
 }

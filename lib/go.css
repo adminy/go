@@ -9,11 +9,39 @@ canvas {
 	width:100%;
 	height:100%;
 	border-radius:13px;
-	padding-top:20px;
-	padding-bottom:20px;
+	cursor:pointer;
 }
 
-div {
-	border:12px solid #e1995e;
-	border-radius:25px;
+#left {
+	position:absolute;top:0;left:0;width:200px;
+	border:5px solid #e1995e;
+	border-radius:10px;
+}
+#mid  {
+	position:absolute;top:0;left:30%;width:564px;height:564px;
+	border:12px solid #e1995e;border-radius:25px;
+}
+#right {
+	position:absolute;top:0;right:0;
+	border:5px solid #e1995e;border-radius:10px;
+}
+
+#scores {
+	display: flex;
+}
+
+#black_score {
+
+	background:black;
+	color:white;
+	border:1px solid white;
+	flex: 0 0 50%;
+	text-align:center;
+}
+
+#white_score {
+	flex: 1;
+	background:white;
+	border:1px solid black;
+	text-align:center;
 }
