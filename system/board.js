@@ -4,12 +4,8 @@ class Board {
     constructor() {
         this.canvas = document.getElementById("board");
 
-		this.canvas.style.width = this.canvas.width = 600;
-		this.canvas.style.height = this.canvas.height = 600;
-		this.ctx = this.canvas.getContext('2d');
 		this.board_size = 9; //hardcoded board size
 		this.board_pos = 33; //this.board_size*4; //board position on the canvas
-		this.distance_between = this.canvas.width/this.board_size; //distance between spaces		
 		this.chains = [];
         this.board = [];
         //fill the board with "Free"
@@ -26,7 +22,13 @@ class Board {
 
 
 	drawBoard() {
+		this.canvas.style.width = this.canvas.width = 600;
+		this.canvas.style.height = this.canvas.height = 600;
+		this.rect = this.canvas.getBoundingClientRect();
+		this.ctx = this.canvas.getContext('2d');
+		this.distance_between = this.canvas.width/this.board_size; //distance between spaces		
 		
+
 		this.ctx.beginPath();
 		for(var i = 0; i < this.board_size; i++) {
 			this.ctx.moveTo(this.board_pos, this.board_pos + this.distance_between * i);
@@ -68,9 +70,8 @@ class Board {
 	}
 
 	waitForUserEvents() {
-		this.canvas.addEventListener("click", function(event) {          
-				var rect = board.canvas.getBoundingClientRect();
-				var mouse = {x: event.clientX - rect.left, y: event.clientY - rect.top};
+		this.canvas.addEventListener("mousedown", function(event) {
+				var mouse = {x: event.clientX - board.rect.left, y: event.clientY - board.rect.top};
 				board.checkvalidclick(mouse);
 		}, false);
 	}
@@ -82,16 +83,16 @@ class Board {
 		for(var i = 0; i < this.board_positions.length; i++) {
 			//ALTERNATIVE CODE
 			//if clicked inside a circle
-			if(Math.sqrt((mouse.x - this.board_positions[i][0]) * (mouse.x - this.board_positions[i][0]) +
-				 (mouse.y - this.board_positions[i][1]) * (mouse.y - this.board_positions[i][1])) < 
-						this.radius && this.board_positions[i][2] !== true && me.canMove) {
+			//if(Math.sqrt((mouse.x - this.board_positions[i][0]) * (mouse.x - this.board_positions[i][0]) +
+			//	 (mouse.y - this.board_positions[i][1]) * (mouse.y - this.board_positions[i][1])) < 
+			//			this.radius && this.board_positions[i][2] !== true && me.canMove) {
 			
-			//if(Math.pow(mouse.x - this.board_positions[i][0], 2) + Math.pow(mouse.y - this.board_positions[i][1], 2) < Math.pow(this.radius,2) && this.board_positions[i][2] !== true && ) {
+			if(Math.pow(mouse.x - this.board_positions[i][0], 2) + Math.pow(mouse.y - this.board_positions[i][1], 2) < Math.pow(this.radius,2) && this.board_positions[i][2] !== true && me.canMove) {
 
 					me.makeTurn(parseInt(i/this.board_size), i%this.board_size); //move y, x
 					this.board_positions[i][2] = true;
 					//console.log("Y: "+parseInt(i/this.board_size)+", X: "+ (i%this.board_size) );
-			}	
+			}
 		}
 	}
 
@@ -122,7 +123,15 @@ class Board {
 		this.ctx.fillStyle = "#e1995e";
 		this.ctx.fill();
 		this.ctx.closePath();
-		this.board_positions[i][2] = false; //TODO: this tells position taken don't place anymore but ... Not checked above ... not used
+		this.board_positions[i][2] = false;
 		this.board[y][x] = "Free"; //something here	
+	}
+
+	update() {
+		this.drawBoard();
+        for(var y = 0; y < this.board.length; y++)
+            for(var x = 0; x < this.board[y].length; x++)
+                if(this.board[y][x] != "Free")
+                    this.drawMove(board.board[y][x].colour, y, x);
 	}
 }

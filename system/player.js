@@ -24,6 +24,7 @@ class Player {
         history_div.scrollTop = history_div.scrollHeight;
         //document.getElementById("move_history").innerHTML += move[1] + " at y: " + (parseInt(move[2])+1) + " x: " + (parseInt(move[2])) + "<br>";
         //document.getElementById("move_history").scrollTop = document.getElementById("move_history").scrollHeight;
+        board.update();
     }
 
 

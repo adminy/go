@@ -42,7 +42,7 @@ class Stone {
         this.liberty = new Liberty(this); //for this specific stone
         this.x = x;
         this.y = y;
-        this.mychain = "Free";
+        this.mychain = new Chain(this.colour, []);
         this.checkForChain();
     }
 
@@ -64,8 +64,9 @@ class Stone {
         // if there is a stone to right that same colour as you
         if (this.liberty.right == 0 && this.isMyStone(this.y, this.x+1)){
             if(addedToChain) {
-                while(board.board[this.y][this.x+1].mychain.stones != [])
-                    board.board[added_y][added_x].mychain.stones.push(board.board[this.y][this.x+1].mychain.stones.pop());
+                for(var i = 0; i < board.board[this.y][this.x+1].mychain.stones.length; i++)
+                    board.board[added_y][added_x].mychain.stones.push(board.board[this.y][this.x+1].mychain.stones[i]);
+                board.board[this.y][this.x+1].mychain.stones = [];
             }
             else {
                 board.board[this.y][this.x+1].mychain.stones.push(this);
@@ -82,8 +83,9 @@ class Stone {
         // if there is a stone above that is same colour as you
         if (this.liberty.top == 0 && this.isMyStone(this.y+1, this.x)) {
             if(addedToChain) {
-                while(board.board[this.y+1][this.x].mychain.stones != [])
-                    board.board[added_y][added_x].mychain.stones.push(board.board[this.y+1][this.x].mychain.stones.pop());
+                for(var i = 0; i < board.board[this.y+1][this.x].mychain.stones.length; i++)
+                    board.board[added_y][added_x].mychain.stones.push(board.board[this.y+1][this.x].mychain.stones[i]);
+                board.board[this.y+1][this.x].mychain.stones = [];
             }
             else {
                 board.board[this.y+1][this.x].mychain.stones.push(this);
@@ -100,8 +102,9 @@ class Stone {
         // if there is a stone below that is same colour as you
         if (this.liberty.bottom == 0 && this.isMyStone(this.y-1, this.x)){
             if(addedToChain) {
-                while(board.board[this.y-1][this.x].mychain.stones != [])
-                    board.board[added_y][added_x].mychain.stones.push(board.board[this.y-1][this.x].mychain.stones.pop());
+                for(var i = 0; i < board.board[this.y-1][this.x].mychain.stones.length; i++)
+                    board.board[added_y][added_x].mychain.stones.push(board.board[this.y-1][this.x].mychain.stones[i]);
+                board.board[this.y-1][this.x].mychain.stones = [];
             }
             else {
                 board.board[this.y-1][this.x].mychain.stones.push(this);
@@ -121,9 +124,8 @@ class Stone {
         
     }
 
-    isMyStone(y, x) { //typeof board.board[y][x] == "object" && board.board[y][x].hasOwnProperty('colour')
-        if(board.board[y] && board.board[y][x])
-            return board.board[y][x] && board.board[y][x].colour == this.colour;
+    isMyStone(y, x) { //typeof board.board[y][x] == "object" && board.board[y][x].hasOwnProperty('colour')   
+        return board.board[y] && board.board[y][x] && board.board[y][x].colour == this.colour;
     }
 
 
