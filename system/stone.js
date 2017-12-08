@@ -26,12 +26,23 @@ class Chain {
         return this.liberties;
     }
     removeChain(){  //removeChain removes a chain but also returns the chains length
-        
-        for (var i = 0; i < this.stones.length; i++){
+        var score_x = this.stones.length;
+        var colour_x = "black";
+
+        if(this.stones.length > 0)
+            colour_x = this.stones[0].colour;
+
+        for (var i = 0; i < this.stones.length; i++)
             board.deleteMove(this.stones[i].y,this.stones[i].x);
-            //also tell the server this information maybe????
-        }
         this.stones = [];
+        board.cleanChains();
+        if(me.colour == colour_x) {
+            me.updateScore(-score_x);
+            op.updateScore(score_x);
+        } else {
+            me.updateScore(score_x);
+            op.updateScore(-score_x);
+        }
    }
 
 }
@@ -129,9 +140,9 @@ class Stone {
     }
 
 
-    stoneGroupConstruction() {
+    //stoneGroupConstruction() {
         //hint -> use `this.board`
-    }
+    //}
 
     updateLiberties() {
         this.liberty.left = (this.x > 0 && board.board[this.y][this.x-1] == "Free") ? 1 : 0;
@@ -140,9 +151,9 @@ class Stone {
         this.liberty.bottom = (this.y < (board.board_size - 1) && board.board[this.y+1][this.x] == "Free") ? 1 : 0;
     }
 
-    suicideCheck() {
+    //suicideCheck() {
 
-    }
+    //}
 
 
 }

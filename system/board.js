@@ -3,36 +3,55 @@ var newChains;	//global variables.
 class Board {
     constructor() {
         this.canvas = document.getElementById("board");
-
+        this.canvas.width = window.innerHeight/1.6;
+        this.canvas.height = window.innerHeight/1.6;
 		this.board_size = 9; //hardcoded board size
-		this.board_pos = 33; //this.board_size*4; //board position on the canvas
+
+		this.board_pos = this.canvas.width/this.board_size; //this.board_size*4; //board position on the canvas
+		this.distance_between = this.canvas.width/this.board_size; //distance between spaces		
+		this.radius = this.distance_between/2;
+
+		this.canvas.style.width = this.canvas.width =  this.distance_between * this.board_size + this.distance_between;
+		this.canvas.style.height = this.canvas.height = this.distance_between * this.board_size + this.distance_between;
+
 		this.chains = [];
         this.board = [];
-        //fill the board with "Free"
-        for(let y = 0; y < this.board_size; y++) {
-            this.board[y] = [];
-            for(let x = 0; x < this.board_size; x++)
-                this.board[y][x] = "Free";
-		}
+        this.cleanBoard();
 		//draw empty board
 		this.drawBoard();
 		
 		this.canvas.addEventListener("mousedown", function(event) {
-			console.log("CX:"+event.clientX+" CY:"+event.clientY + " BR:"+JSON.stringify(board.rect))
+			//console.log("CX:"+event.clientX+" CY:"+event.clientY + " BR:"+JSON.stringify(board.rect))
 			board.checkvalidclick({x: event.clientX - board.rect.left,
 								   y: event.clientY - board.rect.top});
 		});
 
     }
 
+    cleanBoard() {
+    	//fill the board with "Free"
+        for(let y = 0; y < this.board_size; y++) {
+            this.board[y] = [];
+            for(let x = 0; x < this.board_size; x++)
+                this.board[y][x] = "Free";
+		}
+    }
+
+    checkFull() {
+    	var total = 0;
+        for(let y = 0; y < this.board.length; y++)
+            for(let x = 0; x < this.board[y].length; x++)
+                if(this.board[y][x] != "Free")
+                	total++;
+        return total == this.board_size ** 2;
+    }
 
 	drawBoard() {
-		this.canvas.style.width = this.canvas.width = 600;
-		this.canvas.style.height = this.canvas.height = 600;
+
+
 		this.rect = this.canvas.getBoundingClientRect();
 		this.ctx = this.canvas.getContext('2d');
-		this.distance_between = this.canvas.width/this.board_size; //distance between spaces		
-		this.radius = this.distance_between/2;
+
 		
 		this.ctx.beginPath();
 		for(var i = 0; i < this.board_size; i++) {
@@ -78,6 +97,8 @@ class Board {
 			for(var x = 0; x < this.board[y].length; x++) {
 				var my = this.board_pos + y * this.distance_between, 
 					mx = this.board_pos + x * this.distance_between;
+				//try rounding??
+				//console.log("MY:"+my + " MX:"+mx +" M_X:" +mouse.x+" M_Y:" +mouse.y )
 				//if clicked inside a circle
 				//if(Math.sqrt((mouse.x-mx)**2+(mouse.y-my)**2 < this.radius 
 				//	&& this.board[y][x] == "Free" && me.canMove))
@@ -106,10 +127,15 @@ class Board {
 	}
 
 	update() {
+		this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 		this.drawBoard();
         for(var y = 0; y < this.board.length; y++)
             for(var x = 0; x < this.board[y].length; x++)
                 if(this.board[y][x] != "Free")
                     this.drawMove(board.board[y][x].colour, y, x);
+        if(this.checkFull()) {
+        	finish_game();
+        }
 	}
+
 }

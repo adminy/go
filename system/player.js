@@ -1,15 +1,18 @@
 class Player {
     constructor(colour, score) {
         this.colour = colour; //"black" | "white"
-        this.score = new Score(this); //this is reference to this current instance of a player
-        score = this.score;
+        this.score = score; //new Score(this); //this is reference to this current instance of a player
+        //score = this.score;
         this.canMove = false;
     }
     makeTurn(y, x) {
         if(this.canMove)
             send('move,'+this.colour+','+y+','+x);
     }
-
+    updateScore(x) {
+        this.score += x;
+        document.getElementById(this.colour + "_score").innerHTML = this.score;
+    }
     placeTurn(data) {
         var move        = data.split(',');
         var move_colour = move[1],
@@ -19,7 +22,7 @@ class Player {
         this.refreshLiberties();
         this.prisoners(move_y, move_x);
         
-        var history_div = document.getElementById("move_history");
+        var history_div = document.getElementById("history");
         history_div.innerHTML += move[1] + " at y: " + move_y + " x: " + move_x + "<br>";
         history_div.scrollTop = history_div.scrollHeight;
         board.update();

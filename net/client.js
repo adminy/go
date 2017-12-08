@@ -6,7 +6,7 @@ function selectServer(ip) {
 //once started connection and its open, process the server responses.
 function startConnection() {
 	ws.onopen = function(event) {
-		document.getElementById('status').innerHTML += "<font color=green>Connected!</font><br>";
+		document.getElementById('history').innerHTML += "<font color=green>Connected!</font><br>";
         send("whoami"); //ask server which player AM I?
     }
 	ws.onmessage = function(response) {
@@ -21,8 +21,14 @@ function processResponse(data) {
 	*/
 	if(isPlayerSetup == false && (data == "black" || data == "white")) {
 		isPlayerSetup = true;
-		me = new Player(data, 0);
-		document.getElementById('status').innerHTML += "You have become the " + data + " player.<br>";
+		if(data == "black") {
+			me = new Player(data, 0);
+			op = new Player("white", 2);
+		} else {
+			me = new Player(data, 2);
+			op = new Player("black", 0);
+		}
+		document.getElementById('history').innerHTML += "You have become the " + data + " player.<br>";
 	}
 
 	if(data.substring(0,4) == 'move') {
