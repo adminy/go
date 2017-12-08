@@ -134,8 +134,12 @@ class Board {
                 if(this.board[y][x] != "Free")
                     this.drawMove(board.board[y][x].colour, y, x);
         if(this.checkFull()) {
-        	finish_game();
+        	game_again();
         }
+
+        var history_div = document.getElementById("history");
+        history_div.scrollTop = history_div.scrollHeight;
+
 	}
 
 }

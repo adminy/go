@@ -1,4 +1,5 @@
 		var ws, isPlayerSetup = false, board, me, op, score,  game_reset = false; //global variables
+		//BOT CODE
 		/*
 		var black_turns = 0;		//to remove at the end of testing
 		var white_turns = 0;		//to remove at the end of testing
@@ -26,25 +27,21 @@
 				
 				selectServer("51.37.119.242:88");
 				//setTimeout(autoplay,0);
-
-
-				document.getElementById('history').style.height = window.innerHeight - window.innerHeight/10;
 			}
 		};
 
 
-		function random_fill(winner_colour) {
-			let y = Math.floor(Math.random() * board.board_size),
-			    x = Math.floor(Math.random() * board.board_size);
-			board.board[y][x] = new Stone(winner_colour, y, x);
-			board.update();
-			setTimeout(function() { 
-				if(!game_reset) {
-					if(board.checkFull()) board.cleanBoard();
-					random_fill(winner_colour); 
-				}
-			}, 0);
-		}
+		// function random_fill(winner_colour) {
+		// 	let y = Math.floor(Math.random() * board.board_size),
+		// 	    x = Math.floor(Math.random() * board.board_size);
+		// 	board.board[y][x] = new Stone(winner_colour, y, x);
+		// 	board.update();
+		// 	setTimeout(function() {
+		// 		if(!game_reset) {
+		// 			random_fill(winner_colour); 
+		// 		}
+		// 	}, 0);
+		// }
 
 		function finish_game() {
 			let winner_colour = "green";
@@ -57,7 +54,6 @@
 			}
 			board.cleanBoard();
 			game_reset = false;
-			random_fill(winner_colour);
 			document.getElementById('reset_game').removeAttribute('disabled');
 			document.getElementById('end_game').setAttribute('disabled', 'true');
 		}
@@ -70,5 +66,6 @@
 			board.update();
 			document.getElementById('history').innerHTML = "<font color=green>Game Reset!</font><br>";
 			document.getElementById('history').innerHTML = '';
+
 				
 		}

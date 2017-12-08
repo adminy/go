@@ -37,7 +37,7 @@ function processResponse(data) {
 	if(data.substring(0,7) == 'canmove')
 		me.canMove = data.split(',')[1] == me.colour;
 
-	console.log(data);	
+	//console.log(data);	
 }
 //Send message to server
 function send(message) {
@@ -52,30 +52,30 @@ function send(message) {
 
 
 
-function operation() {
-	//yeah what does this do again?
-}
+// function operation() {
+// 	//yeah what does this do again?
+// }
 
-function stonePlacementRequest() {
-	var userInput = {x:3, y:3};
-	ws.send(JSON.stringify(userInput));
-	//finally making sense function
-}
+// function stonePlacementRequest() {
+// 	var userInput = {x:3, y:3};
+// 	ws.send(JSON.stringify(userInput));
+// 	//finally making sense function
+// }
 
-function updateDisplay() {
-	//I'm assuming this is like after server tells client put this piece as response from player B?
-}
+// function updateDisplay() {
+// 	//I'm assuming this is like after server tells client put this piece as response from player B?
+// }
 
-function toBeCaptured(bool) {
-	if(bool) {
-		//puff 4 or however many pieces to be removed :)
-	}
-}
+// function toBeCaptured(bool) {
+// 	if(bool) {
+// 		//puff 4 or however many pieces to be removed :)
+// 	}
+// }
 
-function prisonerScore() {
-	//ask server for score right?
-	ws.send("{cmd:'score'}");
-}
+// function prisonerScore() {
+// 	//ask server for score right?
+// 	ws.send("{cmd:'score'}");
+// }
 
 
 
@@ -87,22 +87,22 @@ function prisonerScore() {
 	new Board function written Above! renamed to drawBoard() because server also needs a new Board??
 */
 
-function renderGraphics() {
-	//unfortunately you'll have to explain yourself.
-}
+// function renderGraphics() {
+// 	//unfortunately you'll have to explain yourself.
+// }
 
-function renderAudio(src) {
-	window.sound = [];
-	window.sound.push(new Audio(src));
-}
+// function renderAudio(src) {
+// 	window.sound = [];
+// 	window.sound.push(new Audio(src));
+// }
 
-function displayClientView() {
-	//again is this just another renderGraphics? Please Explain!
-}
+// function displayClientView() {
+// 	//again is this just another renderGraphics? Please Explain!
+// }
 
-function decideStonePlacement() {
-	//does what now?
-}
+// function decideStonePlacement() {
+// 	//does what now?
+// }
 
 
 /*
