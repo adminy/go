@@ -134,7 +134,7 @@ class Board {
                 if(this.board[y][x] != "Free")
                     this.drawMove(board.board[y][x].colour, y, x);
         if(this.checkFull()) {
-        	game_again();
+        	setTimeout(game_again, 5000);
         }
 
         var history_div = document.getElementById("history");

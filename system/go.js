@@ -67,5 +67,8 @@
 			document.getElementById('history').innerHTML = "<font color=green>Game Reset!</font><br>";
 			document.getElementById('history').innerHTML = '';
 
+
+			document.getElementById('black_score').innerHTML = '0';
+			document.getElementById('white_score').innerHTML = '2';
 				
 		}
